@@ -1,0 +1,123 @@
+                AXI ASIC RTL-to-GDSII Implementation Commands
+---------------------------------------------------------------------------------------
+
+Project: AXI ASIC Interconnect using SKY130
+Environment: Kali Linux running on Oracle VirtualBox
+Tools Used: OpenLane, OpenROAD, Yosys, Magic, SKY130 PDK
+Flow: RTL → Synthesis → Floorplan → Placement → CTS → Routing → GDSII
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+Open OpenLane Docker Environment : 
+
+cd ~/OpenLane
+make mount
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+Start Interactive OpenLane Flow : 
+
+cd /openlane
+./flow.tcl -interactive
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+Prepare Design:
+
+prep -design axi_interconnect -overwrite
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+Run RTL Synthesis | Run Floorplanning | 
+Run Standard Cell Placement |Run Clock Tree Synthesis (CTS) |
+Run Global and Detailed Routing |Generate GDSII using Magic | Run Magic DRC Verification |
+Run LVS Verification using Yosys : 
+
+commands to run all those : 
+
+run_synthesis
+run_floorplan
+run_placement
+run_cts
+run_routing
+run_magic
+run_magic_drc
+run_lvs
+---------------------------------------------------------------------------------------
+Locate Latest OpenLane Run : 
+
+cd /openlane/designs/axi_interconnect/runs
+
+ls -td RUN_* | head -1
+
+Export Current Run Variable
+
+export RUN=RUN_2026.05.28_06.23.41
+---------------------------------------------------------------------------------------
+
+View Synthesis Reports : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/reports/synthesis
+
+ls
+
+cat *.stat.rpt
+---------------------------------------------------------------------------------------
+
+View Floorplan Logs : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/logs/floorplan
+
+ls
+
+cat 3-initial_fp.log
+---------------------------------------------------------------------------------------
+
+Open Placement Layout using OpenROAD GUI : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/results/placement
+
+openroad -gui top.odb
+---------------------------------------------------------------------------------------
+
+Open CTS Layout : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/results/cts
+
+openroad -gui top.odb
+---------------------------------------------------------------------------------------
+
+Open Routing Layout : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/results/routing
+
+openroad -gui top.odb
+---------------------------------------------------------------------------------------
+
+View Post-Route STA Report : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/logs/routing
+
+cat 33-grt_sta.log
+---------------------------------------------------------------------------------------
+
+View DRC Report : 
+
+cd /openlane/designs/axi_interconnect/runs/$RUN/logs/signoff
+
+cat 38-drc.log
+---------------------------------------------------------------------------------------
+
+Locate Generated GDSII File : 
+
+find ~/OpenLane/designs/axi_interconnect/runs/$RUN -name "*.gds"
+---------------------------------------------------------------------------------------
+
+Locate DEF Files : 
+
+find ~/OpenLane/designs/axi_interconnect/runs/$RUN -name "*.def"
+---------------------------------------------------------------------------------------
+
+Locate LEF Files : 
+
+find ~/OpenLane/designs/axi_interconnect/runs/$RUN -name "*.lef"
