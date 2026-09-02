@@ -17,7 +17,6 @@ The design supports pipelined AXI communication using valid-ready handshake prot
 - GDSII Generation
 
 This work was developed as part of an IEEE conference research project focused on scalable and energy-efficient SoC communication architectures.
-
 ---
 # ASIC Design Flow
 
